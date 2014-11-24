@@ -71,14 +71,25 @@ for j in 1:Ny
   x = x_min + (j - 0.5)*dx
   for i in 1:Nx
     y = y_max - (i - 0.5)*dy
+
+    # Shoot ray
     alpha = deflection_angles(x, y)
     xs = x - alpha[1]
     ys = y - alpha[2]
-    
+
+    # Find appropriate bin in source plane
+    ii = convert(Int64, floor((ys_max - ys)/dys)) + 1
+    jj = convert(Int64, floor((xs - xs_min)/dxs)) + 1
+    if ii >= 1 && ii <= Nx && jj >= 1 && jj <= Ny
+      map[ii, jj] += 1
+    end
   end
+  println(j)
 end
 
-#import PyPlot
-#PyPlot.plot(m_stars)
-#PyPlot.savefig("stars.pdf", bbox_inches="tight")
+println(size(map))
+
+import PyPlot
+PyPlot.imshow(map, interpolation="nearest")
+PyPlot.savefig("map.pdf", bbox_inches="tight")
 
