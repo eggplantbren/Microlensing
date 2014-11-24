@@ -1,15 +1,13 @@
 srand(0)
 
 # Density in stars, density in smooth matter, external shear
-rho_stars = 0.5
-rho_smooth = 0.2
-shear = 0.1
+rho_stars = 0.7
 
 # Number of stars
 N_stars = 100
 
 # Radius of disc of stars
-radius = 10.
+radius = 100.
 
 # Pareto distribution parameters
 min_mass = 1.
@@ -41,31 +39,30 @@ function deflection_angles(x, y)
   ay = 0.
   for i in 1:N_stars
     rsq = (x - x_stars[i])^2 + (y - y_stars[i])^2
-    ax += -(x - x_stars[i])/(pi*rsq)
-    ay += -(y - y_stars[i])/(pi*rsq)
+    ax += m_stars[i]*(x - x_stars[i])/(pi*rsq)
+    ay += m_stars[i]*(y - y_stars[i])/(pi*rsq)
   end
   return [ax, ay]
 end
 
+# Magnification map
+map = zeros(Int64, (100, 100))
+xs_min = -10.
+xs_max =  10.
+ys_min = -10.
+ys_max =  10.
+dxs = (xs_max - xs_min)/(size(map)[2])
+dys = (ys_max - ys_min)/(size(map)[1])
 
-# Grid of rays
-x_min = -5.
-x_max =  5.
-y_min = -5.
-y_max =  5.
+# Grid of rays to fire
+x_min = xs_min/(1. - rho_stars)
+x_max = xs_max/(1. - rho_stars)
+y_min = ys_min/(1. - rho_stars)
+y_max = ys_max/(1. - rho_stars)
 Nx = 1000
 Ny = 1000
 dx = (x_max - x_min)/Nx
 dy = (y_max - y_min)/Ny
-
-# Magnification map
-map = zeros(Int64, (1000, 1000))
-xs_min = -2.
-xs_max =  2.
-ys_min = -2.
-ys_max =  2.
-dxs = (xs_max - xs_min)/(size(map)[2])
-dys = (ys_max - ys_min)/(size(map)[1])
 
 for j in 1:Ny
   x = x_min + (j - 0.5)*dx
@@ -80,11 +77,11 @@ for j in 1:Ny
     # Find appropriate bin in source plane
     ii = convert(Int64, floor((ys_max - ys)/dys)) + 1
     jj = convert(Int64, floor((xs - xs_min)/dxs)) + 1
-    if ii >= 1 && ii <= Nx && jj >= 1 && jj <= Ny
+    if ii >= 1 && ii <= size(map)[1] && jj >= 1 && jj <= size(map)[2]
       map[ii, jj] += 1
     end
   end
-  println(j)
+  println(j, "/", Ny)
 end
 
 println(size(map))
