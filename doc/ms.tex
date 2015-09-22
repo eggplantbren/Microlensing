@@ -97,5 +97,28 @@ where we have redefined some ugly stuff as follows:
 \gamma &=& \sum_{i=1}^N \frac{1}{\sigma_i^2}.
 \end{eqnarray}
 
+Getting back to the integral, we need to work it into a standard gaussian shape.
+First take the $\gamma$ outside the parentheses in the integral (in preparation
+for completing the square):
+\begin{eqnarray}
+p(\yy | \btheta_0) &=&
+CL^{-1}\int_{-\infty}^\infty
+\exp\left[
+-\frac{1}{2}\gamma
+\left(\frac{\alpha}{\gamma} + \frac{\beta}{\gamma} b + b^2\right)
+\right]
+\, db
+\end{eqnarray}
+Now complete the square:
+\begin{eqnarray}
+p(\yy | \btheta_0) &=&
+CL^{-1}\int_{-\infty}^\infty
+\exp\left[
+-\frac{1}{2}\gamma
+\left(\frac{\alpha}{\gamma} - \frac{\beta^2}{4\gamma^2} + \frac{\beta^2}{4\gamma^2} + \frac{\beta}{\gamma} b + b^2\right)
+\right]
+\, db
+\end{eqnarray}
+
 \end{document}
 
