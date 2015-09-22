@@ -81,9 +81,21 @@ p(\yy | \btheta_0) &=& CL^{-1}\int_{-\infty}^\infty
 \left(\frac{y_i - m'(t_i; \btheta_0) - b}{\sigma_i}
 \right)^2
 \right]
-\, db.
+\, db \\
+&=&
+CL^{-1}\int_{-\infty}^\infty
+\exp\left[
+-\frac{1}{2}
+\left(\alpha + \beta b + \gamma b^2\right)
+\right]
+\, db
 \end{eqnarray}
-
+where we have redefined some ugly stuff as follows:
+\begin{eqnarray}
+\alpha &=& \sum_{i=1}^N \frac{\left(y_i - m'(t_i; \btheta)\right)^2}{\sigma_i^2}\\
+\beta  &=& -2\sum_{i=1}^N\frac{y_i - m'(t_i; \btheta)}{\sigma_i^2}\\
+\gamma &=& \sum_{i=1}^N \frac{1}{\sigma_i^2}.
+\end{eqnarray}
 
 \end{document}
 
