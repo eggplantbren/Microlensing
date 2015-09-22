@@ -1,0 +1,74 @@
+\documentclass[a4paper, 11pt]{article}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{dsfont}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[left=3cm,top=3cm,right=3cm]{geometry}
+
+\newcommand{\yy}{\boldsymbol{y}}	% The unknown parameters
+\newcommand{\btheta}{\boldsymbol{\theta}}  % The data
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.1}
+\parindent=0cm
+
+\title{}
+\author{}
+
+\begin{document}
+%\maketitle
+
+\section{Marginalising over the constant offset parameter}
+Denote the data by $\{y_1, y_2, ..., y_N\}$, measured at times
+$\{t_1, t_2, ..., t_N\}$, with ``error bars'' (standard deviations)
+$\{\sigma_1, \sigma_2, ..., \sigma_N\}$. Let
+$\btheta$ be a vector of all of the unknown parameters,
+and let $\btheta_0$ be all except the offset.
+The standard likelihood assumption is
+\begin{eqnarray}
+p(\yy | \btheta) &=& \prod_{i=1}^N \frac{1}{\sigma_i\sqrt{2\pi}}
+\exp\left[
+-\frac{1}{2\sigma_i^2}
+\left(y_i - m(t_i ;\btheta)
+\right)^2
+\right]\\
+&=&
+\left(\prod_i \sigma_i^{-1}\right)(2\pi)^{-N/2}
+\exp\left[-\frac{1}{2}\chi^2(\btheta)\right]\\
+&=&
+C
+\exp\left[-\frac{1}{2}\chi^2(\btheta)\right]\\
+\label{eq:likelihood}
+\end{eqnarray}
+where $m(t_i; \btheta)$ is the model prediction at time $t_i$ based on the
+parameters. Since this involves an offset, let $b$ be the offset and write
+the model prediction as
+\begin{eqnarray}
+m(t_i; \btheta) &=& m'(t_i; \btheta_0) + b
+\end{eqnarray}
+where $m'$ is a version of the model prediction that doesn't use the offset
+(or has it set to zero). To do the inference, we want the posterior for
+$\btheta_0$, so we'll need the likelihood $p(\yy | \btheta_0)$ instead of
+$p(\yy | \btheta)$ which we defined in Equation~\ref{eq:likelihood}.
+Rewriting Equation~\ref{eq:likelihood} to explicitly include the offset, we
+get
+\begin{eqnarray}
+p(\yy | \btheta_0, b) &=& C
+\exp\left[
+-\frac{1}{2\sigma_i^2}
+\left(\left\{y_i - m'(t_i; \btheta_0)\right\} - b)
+\right)^2
+\right]
+\end{eqnarray}
+
+By the rules of probability theory (first the sum rule, then the product rule),
+we have
+\begin{eqnarray}
+p(\yy | \btheta_0) &=& \int_{-\infty}^\infty p(\yy, b | \btheta_0) \, db\\
+&=& \int_{-\infty}^\infty p(b | \btheta_0)p(\yy | b, \btheta_0) \, db.
+\end{eqnarray}
+So we have an integral to do. It'll be tractable if the prior $p(b | \btheta_0)$
+is either gaussian or flat. We'll assume flat (and independent of $\btheta_0$).
+
+\end{document}
+
