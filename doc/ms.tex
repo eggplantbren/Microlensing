@@ -19,11 +19,11 @@
 %\maketitle
 
 \section{Marginalising over the constant offset parameter}
-Denote the data by $\{y_1, y_2, ..., y_N\}$, measured at times
+Denote the data by $\yy = \{y_1, y_2, ..., y_N\}$, measured at times
 $\{t_1, t_2, ..., t_N\}$, with ``error bars'' (standard deviations)
 $\{\sigma_1, \sigma_2, ..., \sigma_N\}$. Let
 $\btheta$ be a vector of all of the unknown parameters,
-and let $\btheta_0$ be all except the offset.
+and let $\btheta_0$ be all except the offset $b$.
 The standard likelihood assumption is
 \begin{eqnarray}
 p(\yy | \btheta) &=& \prod_{i=1}^N \frac{1}{\sigma_i\sqrt{2\pi}}
@@ -31,14 +31,13 @@ p(\yy | \btheta) &=& \prod_{i=1}^N \frac{1}{\sigma_i\sqrt{2\pi}}
 -\frac{1}{2\sigma_i^2}
 \left(y_i - m(t_i ;\btheta)
 \right)^2
-\right]\\
+\right]\label{eq:likelihood}\\
 &=&
 \left(\prod_i \sigma_i^{-1}\right)(2\pi)^{-N/2}
 \exp\left[-\frac{1}{2}\chi^2(\btheta)\right]\\
 &=&
 C
 \exp\left[-\frac{1}{2}\chi^2(\btheta)\right]\\
-\label{eq:likelihood}
 \end{eqnarray}
 where $m(t_i; \btheta)$ is the model prediction at time $t_i$ based on the
 parameters. Since this involves an offset, let $b$ be the offset and write
@@ -66,9 +65,25 @@ we have
 \begin{eqnarray}
 p(\yy | \btheta_0) &=& \int_{-\infty}^\infty p(\yy, b | \btheta_0) \, db\\
 &=& \int_{-\infty}^\infty p(b | \btheta_0)p(\yy | b, \btheta_0) \, db.
+\label{eq:integral}
 \end{eqnarray}
 So we have an integral to do. It'll be tractable if the prior $p(b | \btheta_0)$
 is either gaussian or flat. We'll assume flat (and independent of $\btheta_0$).
+
+\section{Doing the integral}
+Assume a uniform prior for $b$ over a very large domain with length
+$L$ (so the prior density is $p(b) = L^{-1}$ over that domain). Then
+Equation~\ref{eq:integral} becomes
+\begin{eqnarray}
+p(\yy | \btheta_0) &=& CL^{-1}\int_{-\infty}^\infty
+\exp\left[
+-\frac{1}{2\sigma_i^2}
+\left(\left\{y_i - m'(t_i; \btheta_0)\right\} - b)
+\right)^2
+\right]
+\, db.
+\end{eqnarray}
+
 
 \end{document}
 
