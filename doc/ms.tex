@@ -54,8 +54,8 @@ get
 \begin{eqnarray}
 p(\yy | \btheta_0, b) &=& C
 \exp\left[
--\frac{1}{2\sigma_i^2}
-\left(\left\{y_i - m'(t_i; \btheta_0)\right\} - b)
+-\frac{1}{2}\sum_{i=1}^N
+\left(\frac{y_i - m'(t_i; \btheta_0) - b}{\sigma_i}
 \right)^2
 \right]
 \end{eqnarray}
@@ -77,8 +77,8 @@ Equation~\ref{eq:integral} becomes
 \begin{eqnarray}
 p(\yy | \btheta_0) &=& CL^{-1}\int_{-\infty}^\infty
 \exp\left[
--\frac{1}{2\sigma_i^2}
-\left(\left\{y_i - m'(t_i; \btheta_0)\right\} - b)
+-\frac{1}{2}\sum_{i=1}^N
+\left(\frac{y_i - m'(t_i; \btheta_0) - b}{\sigma_i}
 \right)^2
 \right]
 \, db.
