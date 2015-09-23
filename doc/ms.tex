@@ -97,7 +97,8 @@ where we have redefined some ugly stuff as follows:
 \gamma &=& \sum_{i=1}^N \frac{1}{\sigma_i^2}.
 \end{eqnarray}
 
-Getting back to the integral, we need to work it into a standard gaussian shape.
+Getting back to the integral, we need to manipulate it into a shape where the
+integral is of a more standard form.
 First take the $\gamma$ outside the parentheses in the integral (in preparation
 for completing the square):
 \begin{eqnarray}
@@ -117,7 +118,29 @@ CL^{-1}\int_{-\infty}^\infty
 -\frac{1}{2}\gamma
 \left(\frac{\alpha}{\gamma} - \frac{\beta^2}{4\gamma^2} + \frac{\beta^2}{4\gamma^2} + \frac{\beta}{\gamma} b + b^2\right)
 \right]
-\, db
+\, db\\
+&=&
+CL^{-1}\int_{-\infty}^\infty
+\exp\left[
+-\frac{1}{2}\gamma
+\left(\frac{\alpha}{\gamma} - \frac{\beta^2}{4\gamma^2}\right)
+- \frac{1}{2}\gamma \left(\frac{\beta^2}{4\gamma^2} + \frac{\beta}{\gamma} b + b^2\right)
+\right]
+\, db\\
+&=&
+CL^{-1}\exp\left[
+-\frac{1}{2}\gamma
+\left(\frac{\alpha}{\gamma} - \frac{\beta^2}{4\gamma^2}\right)\right]
+\int_{-\infty}^\infty
+\exp\left[
+- \frac{1}{2}\gamma \left(b + \frac{\beta}{2\gamma}\right)^2
+\right]
+\, db\\
+&=&
+CL^{-1}\exp\left[
+-\frac{1}{2}\gamma
+\left(\frac{\alpha}{\gamma} - \frac{\beta^2}{4\gamma^2}\right)\right]
+\sqrt{\frac{2\pi}{\gamma}}.
 \end{eqnarray}
 
 \end{document}
