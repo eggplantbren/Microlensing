@@ -12,14 +12,31 @@ errorbar(t, y, yerr=sig, fmt='b.')
 show()
 
 # Stuff derived from the data
-logC = -0.5*N*log(2*pi) - sum(log(sigma))
+C = exp(-0.5*N*log(2*pi) - sum(log(sig)))
+alpha = sum((y - mprime)**2/sig**2)
+beta = -2.*sum((y - mprime)/sig**2)
+gamma = sum(1./sig**2)
 
-# Conditional on b
-def log_likelihood(b):
-	chisq = sum((y - (mprime + b))**2)
-	return logC - 0.5*chisq
 
-# Marginalised over b
-def log_likelihood():
-	pass
+# For the numerical marginalisation
+b = linspace(-20, 20, 10001)
+L = b.max() - b.min()
+
+# If b is given, it's conditional on b
+# otherwise, it's marginalised over b
+def log_likelihood(b=None):
+	if b is not None:
+		chisq = sum((y - (mprime + b))**2)
+		return log(C) - 0.5*chisq
+
+# The numerical marginalisation
+logL = zeros(len(b))
+for i in range(0, len(b)):
+	logL[i] = log_likelihood(b[i])
+print(trapz(exp(logL), x=b))
+
+# The analytical marginalisation
+result = C/L*exp(-0.5*gamma*(alpha/gamma - beta**2/4/gamma**2))*sqrt(2*pi/gamma)
+print(result)
+
 
